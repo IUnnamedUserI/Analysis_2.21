@@ -43,11 +43,11 @@ def print_list(staff: t.List[t.Dict[str, t.Any]]) -> None:
     """
     if staff:
         line = '+-{}-+-{}-+-{}-+-{}-+'.format(
-                '-' * 4,
-                '-' * 30,
-                '-' * 20,
-                '-' * 8
-            )
+            '-' * 4,
+            '-' * 30,
+            '-' * 20,
+            '-' * 8
+        )
         print(line)
 
         print(

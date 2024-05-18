@@ -19,7 +19,8 @@ def add_worker(cursor, surname, name, phone, date):
     Функция добавления новой записи
     """
     cursor.execute(
-        sql.SQL("INSERT INTO workers (surname, name, phone, date) VALUES (%s, %s, %s, %s)"),
+        sql.SQL("INSERT INTO workers (surname, name, phone, date) "
+                "VALUES (%s, %s, %s, %s)"),
         (surname, name, phone, date)
     )
     print("Запись успешно добавлена")
@@ -40,7 +41,8 @@ def find_member(cursor, period):
     с введённой и чей год поступления на работу не ранее указанного
     """
     cursor.execute(
-        sql.SQL("SELECT surname, name, phone, date FROM workers WHERE extract(year from date) <= %s"),
+        sql.SQL("SELECT surname, name, phone, date FROM workers "
+                "WHERE extract(year from date) <= %s"),
         (datetime.now().year - period,)
     )
     return cursor.fetchall()
@@ -89,15 +91,45 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     add = subparsers.add_parser("add", help="Add a new worker")
-    add.add_argument("-s", "--surname", action="store", required=True, help="The worker's surname")
-    add.add_argument("-n", "--name", action="store", required=True, help="The worker's name")
-    add.add_argument("-p", "--phone", action="store", help="The worker's phone")
-    add.add_argument("-d", "--date", action="store", required=True, help="The date of hiring")
+    add.add_argument(
+        "-s",
+        "--surname",
+        action="store",
+        required=True,
+        help="The worker's surname"
+    )
+    add.add_argument(
+        "-n",
+        "--name",
+        action="store",
+        required=True,
+        help="The worker's name"
+    )
+    add.add_argument(
+        "-p",
+        "--phone",
+        action="store",
+        help="The worker's phone"
+    )
+    add.add_argument(
+        "-d",
+        "--date",
+        action="store",
+        required=True,
+        help="The date of hiring"
+    )
 
     _ = subparsers.add_parser("display", help="Display all workers")
 
     select = subparsers.add_parser("select", help="Select the workers")
-    select.add_argument("-p", "--period", action="store", type=int, required=True, help="The required period")
+    select.add_argument(
+        "-p",
+        "--period",
+        action="store",
+        type=int,
+        required=True,
+        help="The required period"
+    )
 
     args = parser.parse_args()
 
@@ -111,7 +143,8 @@ def main():
 
     cursor = conn.cursor()
 
-    cursor.execute("CREATE TABLE IF NOT EXISTS workers (surname VARCHAR, name VARCHAR, phone VARCHAR, date DATE)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS workers "
+                   "(surname VARCHAR, name VARCHAR, phone VARCHAR, date DATE)")
 
     if args.command == "add":
         add_worker(cursor, args.surname, args.name, args.phone, args.date)

@@ -121,7 +121,7 @@ def add_worker(
         """,
         (name, post_id, year)
     )
-    
+
     conn.commit()
     conn.close()
 
@@ -132,7 +132,7 @@ def select_all(database_path: Path) -> t.List[t.Dict[str, t.Any]]:
     """
     conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
-    
+
     cursor.execute(
         """
         SELECT workers.worker_name, posts.post_title, workers.worker_year
